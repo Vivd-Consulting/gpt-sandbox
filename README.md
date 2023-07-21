@@ -15,4 +15,4 @@ yarn install
 yarn start
 ```
 
-Now you can open the `chat.html` file in your browser and start chatting with the Spice AI.
+Now you can open the `chat.html` file in your browser and start chatting with the `/spice` endpoint, which has been tuned to behave like an Alien, and can run the `doTheyKnowAboutTheSpice` function.
