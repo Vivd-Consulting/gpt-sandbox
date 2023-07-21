@@ -1,0 +1,56 @@
+<html>
+<head>
+  <title>Spice</title>
+</head>
+
+<body>
+  <h1>Spice Check</h1>
+
+  <div id="messages"></div>
+
+  <div>
+    <input type="text" id="message" name="message" placeholder="Message" onkeydown="parseKeydown()">
+    <button type="button" onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const endpoint = 'http://localhost:3500/spice';
+
+    function appendMessage(message, isMe = false) {
+      if (isMe) {
+        message = `<p><strong>Me: </strong><span>${message}</span></p>`;
+      } else {
+        message = `<p><strong>Bot: </strong><span>${message}</span></p>`;
+      }
+
+      document.getElementById('messages').innerHTML += message;
+    }
+
+    function parseKeydown() {
+      if (event.keyCode === 13) {
+        sendMessage();
+      }
+    }
+
+    async function sendMessage() {
+      const messageInput = document.getElementById('message');
+      const message = messageInput.value;
+
+      appendMessage(message, true);
+      messageInput.value = '';
+
+      const request = await fetch(endpoint, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message})
+      });
+
+      const response = await request.json();
+
+      appendMessage(response.answer);
+
+      return response;
+    }
+  </script>
+</body>
+</html>
